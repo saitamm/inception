@@ -15,7 +15,7 @@ RUN wget https://wordpress.org/latest.tar.gz \
     && rm latest.tar.gz
 
 # Copy PHP-FPM pool config
-# COPY ./tools/wordpress.conf /etc/php/8.2/fpm/pool.d/www.conf
+COPY ./tools/wordpress.conf /etc/php/8.2/fpm/pool.d/www.conf
 # Copy wp-config.php into the container
 COPY wp-config.php /var/www/html/wp-config.php
 
