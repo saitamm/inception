@@ -1,5 +1,21 @@
-FROM mariadb:11.2
+FROM debian:bullseye
 
-COPY ./tools/mariadb.conf /etc/mysql/mariadb.conf.d/maria.conf
+# Install MariaDB
+RUN apt-get update && apt-get install -y mariadb-server mariadb-client && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install mariadb-server -y 
+# Copy configuration file
+COPY .//tools/maria.cnf /etc/mysql/my.cnf
+
+# Copy initialization script
+COPY ./tools/script.sh /script.sh
+RUN chmod +x /script.sh
+
+# Expose port
+EXPOSE 3306
+
+# Volume for database files
+VOLUME ["/var/lib/mysql"]
+
+# Start MariaDB (and ensure it’s initialized)
+CMD ["/script.sh"]
