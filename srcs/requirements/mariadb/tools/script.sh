@@ -1,34 +1,19 @@
 #!/bin/bash
-set -e
+#
+#
+# echo database $MYSQL_DATABASE
+# echo user $MYSQL_USER
 
-# Initialize database if not already done
-if [ ! -d /var/lib/mysql/mysql ]; then
-    echo "Initializing MariaDB data directory..."
-    mariadb-install-db --user=mysql --datadir=/var/lib/mysql
-fi
-
-# Start MariaDB in background
-echo "Starting MariaDB..."
-mysqld_safe &
-
-# Wait for MariaDB to be ready
-until mysqladmin ping &>/dev/null; do
-    sleep 1
-done
-
-echo "MariaDB started."
-
-# Create database, user, and set root password
-mysql -uroot <<EOF
-CREATE DATABASE IF NOT EXISTS MySql;
-CREATE USER IF NOT EXISTS 'soumaya'@'%' IDENTIFIED BY 'Soumaya2000';
-GRANT ALL PRIVILEGES ON MySql.* TO 'soumaya'@'%';
-ALTER USER 'root'@'localhost' IDENTIFIED BY 'soumaya';
+if [ ! -d "/var/lib/mysql/$MYSQL_DATABASE" ]; then
+	service mariadb start
+	mariadb << EOF
+SHOW DATABASES;
+CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;
+CREATE USER IF NOT EXISTS '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';
+GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%';
 FLUSH PRIVILEGES;
 EOF
+	service mariadb stop
+fi
 
-# Stop temporary server
-mysqladmin -uroot -psoumaya shutdown
-
-# Start MariaDB normally (foreground)
-exec mysqld_safe
+mysqld_safe

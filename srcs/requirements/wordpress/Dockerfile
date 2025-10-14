@@ -1,29 +1,15 @@
-FROM debian:12
+FROM debian:12.4-slim
 
-# Install PHP-FPM and extensions
-RUN apt-get update && apt-get install -y \
-    php8.2-fpm php8.2-mysql php8.2-cli php8.2-curl php8.2-xml php8.2-mbstring \
-    wget unzip mariadb-client \
-    && rm -rf /var/lib/apt/lists/*
+# Install dependencies
+RUN apt-get update && apt-get install -y php8.2-fpm curl php-mysql mariadb-client
 
-# Set working directory
-WORKDIR /var/www/html
+WORKDIR /var/www/html/
 
-# Download WordPress
-RUN wget https://wordpress.org/latest.tar.gz \
-    && tar -xzf latest.tar.gz --strip-components=1 \
-    && rm latest.tar.gz
+RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+  && chmod +x /usr/local/bin/wp
 
-# Copy PHP-FPM pool config
-COPY ./tools/wordpress.conf /etc/php/8.2/fpm/pool.d/www.conf
-# Copy wp-config.php into the container
-COPY wp-config.php /var/www/html/wp-config.php
+COPY ./tools/script.sh /root/
+RUN chmod +x  /root/script.sh
+RUN sed -ir "s/listen = \/run\/php\/php8.2-fpm.sock/listen = 0.0.0.0:9000/1" /etc/php/8.2/fpm/pool.d/www.conf
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html
-
-# Expose PHP-FPM port
-EXPOSE 9000
-
-# Start PHP-FPM
-CMD ["php-fpm8.2", "-F"]
+CMD ["bash", "/root/script.sh"]

@@ -1,21 +1,9 @@
-FROM debian:bullseye
+FROM debian:12.4
 
-# Install MariaDB
-RUN apt-get update && apt-get install -y mariadb-server mariadb-client && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y \
+    mariadb-server 
 
-# Copy configuration file
-COPY .//tools/maria.cnf /etc/mysql/my.cnf
-
-# Copy initialization script
-COPY ./tools/script.sh /script.sh
-RUN chmod +x /script.sh
-
-# Expose port
-EXPOSE 3306
-
-# Volume for database files
-VOLUME ["/var/lib/mysql"]
-
-# Start MariaDB (and ensure it’s initialized)
-CMD ["/script.sh"]
+COPY ./tools/script.sh /docker-entrypoint-initdb.d/
+RUN chmod +x /docker-entrypoint-initdb.d/script.sh
+COPY ./tools/maria.cnf /etc/mysql/mariadb.conf.d/
+CMD ["/docker-entrypoint-initdb.d/script.sh"]

@@ -1,13 +1,10 @@
-FROM debian:12
+FROM debian:12.11
 
-# Install Nginx
-RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
+RUN apt-get update -y && apt-get upgrade -y && apt-get install -y nginx
 
-# Copy Nginx config
+
 COPY ./tools/nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./tools/serv.key /etc/nginx/certs/
+COPY ./tools/cert.crt /etc/nginx/certs/
 
-# Expose HTTP port
-EXPOSE 80
-
-# Start Nginx in foreground
 CMD ["nginx", "-g", "daemon off;"]
