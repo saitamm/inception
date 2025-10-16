@@ -1,6 +1,6 @@
-FROM debian:12.11
+FROM debian:12
 
-RUN apt-get update -y && apt-get upgrade -y && apt-get install -y nginx
+RUN apt-get update -y && apt-get install -y nginx
 
 
 COPY ./tools/nginx.conf /etc/nginx/conf.d/default.conf

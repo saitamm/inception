@@ -52,13 +52,6 @@ volumes:
       type: none
       device: /${HOME}/data/mariadb
       o: bind
-  portainer:
-    name : portainer
-    driver: local
-    driver_opts:
-      type: none
-      device: /${HOME}/data/portainer
-      o: bind
 networks:
   wp-network:
     driver: bridge
