@@ -16,4 +16,8 @@ EOF
 	service mariadb stop
 fi
 
+
+# CREATE USER IF NOT EXISTS 'soumaya'@'%' IDENTIFIED BY 'Soumaya2000';
+# GRANT ALL PRIVILEGES ON *.* TO 'soumaya'@'%';
+# FLUSH PRIVILEGES;
 mysqld_safe

@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 
 echo "DB_NAME=$MYSQL_DATABASE"
 echo "DB_USER=$MYSQL_USER"
@@ -29,6 +29,10 @@ if ! wp core is-installed --allow-root; then
     --allow-root
 fi
 
+
+wp user create $USER $USER_EMAIL \
+    --user_pass=$USER_PASSWORD \
+    --allow-root
 echo "USER=$USER"
 echo "USER_EMAIL=$USER_EMAIL"
 echo "USER_PASSWORD=$USER_PASSWORD"
