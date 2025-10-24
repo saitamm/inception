@@ -5,7 +5,7 @@ echo "DB_USER=$MYSQL_USER"
 echo "DB_PASS=$MYSQL_PASSWORD"
 echo "DB_HOST=$DB_HOST:$DB_HOST_PORT"
 
-until mysqladmin ping -h"$DB_HOST" -P"$DB_HOST_PORT" --silent; do
+until mysqladmin ping -h "$DB_HOST" -P "$DB_HOST_PORT" --silent -u "$MYSQL_USER" -p "$MYSQL_PASSWORD"; do
   echo "Waiting for MariaDB..."
   sleep 2
 done
@@ -23,13 +23,13 @@ if ! wp core is-installed --allow-root; then
   wp core install \
     --url="https://sait-amm.42.fr" \
     --title="Inception" \
-    --admin_user="$MYSQL_USER" \
-    --admin_password="$MYSQL_PASSWORD" \
-    --admin_email="$USER_EMAIL" \
+    --admin_user="$ADMIN" \
+    --admin_password="$ADMIN_PASSWORD" \
+    --admin_email="$ADMIN_EMAIL" \
     --allow-root
 fi
 
-
+# echo "----------------------------------------------Wordpress setup done"
 wp user create $USER $USER_EMAIL \
     --user_pass=$USER_PASSWORD \
     --allow-root
@@ -37,6 +37,5 @@ echo "USER=$USER"
 echo "USER_EMAIL=$USER_EMAIL"
 echo "USER_PASSWORD=$USER_PASSWORD"
 
-# echo "soumaaaaaaaaaya wordpress started"
 
 php-fpm8.2 -F
