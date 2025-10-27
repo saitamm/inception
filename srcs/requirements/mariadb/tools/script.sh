@@ -4,7 +4,7 @@ set -e
 echo "-------------- Starting MariaDB setup"
 mkdir -p /run/mysqld
 chown mysql:mysql /run/mysqld
-chmod 755 /run/mysqld
+chmod 777 /run/mysqld
 
 # Start MariaDB in the background
 echo "👉 Starting mysqld_safe..."
@@ -29,5 +29,7 @@ EOF
 fi
 mysqladmin -u root -p"$MYSQL_ROOT_PASSWORD" shutdown
 echo "-------------- MariaDB setup done"
+
+
 # Keep MariaDB running in the foreground
 mysqld_safe
