@@ -1,16 +1,13 @@
 #!/bin/bash
 set -e
 
-echo "-------------- Starting MariaDB setup"
 mkdir -p /run/mysqld
 chown mysql:mysql /run/mysqld
 chmod 777 /run/mysqld
 
-# Start MariaDB in the background
 echo "👉 Starting mysqld_safe..."
 mysqld_safe --nowatch &
 
-# Wait until MariaDB is ready to accept connections
 until mariadb -u root -e "SELECT 1" &>/dev/null; do
     echo "⏳ Waiting for MariaDB to be ready..."
     sleep 2
@@ -28,8 +25,4 @@ EOF
     echo "🎉 MariaDB initialization complete!"
 fi
 mysqladmin -u root -p"$MYSQL_ROOT_PASSWORD" shutdown
-echo "-------------- MariaDB setup done"
-
-
-# Keep MariaDB running in the foreground
 mysqld_safe

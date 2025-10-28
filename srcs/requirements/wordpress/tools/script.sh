@@ -30,12 +30,12 @@ if ! wp core is-installed --allow-root; then
 fi
 
 # echo "----------------------------------------------Wordpress setup done"
-wp user create $USER $USER_EMAIL \
-    --user_pass=$USER_PASSWORD \
+wp user create $USER_WP $USER_WP_EMAIL \
+    --user_pass=$USER_WP_PASSWORD \
     --allow-root
-echo "USER=$USER"
-echo "USER_EMAIL=$USER_EMAIL"
-echo "USER_PASSWORD=$USER_PASSWORD"
+echo "USER=$USER_WP"
+echo "USER_EMAIL=$USER_WP_EMAIL"
+echo "USER_PASSWORD=$USER_WP_PASSWORD"
 
 
 php-fpm8.2 -F

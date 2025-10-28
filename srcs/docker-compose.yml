@@ -4,6 +4,7 @@ services:
   nginx:
     build: ./requirements/nginx
     container_name: nginx 
+    image: nginx
     ports:
       - "443:443"
     networks:
@@ -16,6 +17,7 @@ services:
   wordpress:
     build: ./requirements/wordpress
     container_name: wordpress
+    image: wordpress 
     volumes:
       - wordpress:/var/www/html
     depends_on:
@@ -28,6 +30,7 @@ services:
   mariadb:
     build: ./requirements/mariadb
     container_name: mariadb
+    image: mariadb
     ports:
       - "3306:3306"
     networks:
