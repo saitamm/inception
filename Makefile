@@ -1,7 +1,5 @@
-
-WP_VOLUME_DIR = /home/$(USER)/data/wordpress
-MDB_VOLUME_DIR = /home/$(USER)/data/mariadb
-
+include ./srcs/.env
+export $(shell sed 's/=.*//' ./srcs/.env)
 all: create-volumes
 	docker compose -f ./srcs/docker-compose.yml up --build  -d
 create-volumes:
