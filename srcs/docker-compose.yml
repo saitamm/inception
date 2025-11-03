@@ -31,8 +31,6 @@ services:
     build: ./requirements/mariadb
     container_name: mariadb
     image: mariadb
-    ports:
-      - "3306:3306"
     networks:
       - wp-network
     env_file:

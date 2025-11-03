@@ -3,7 +3,7 @@ WP_VOLUME_DIR = /home/$(USER)/data/wordpress
 MDB_VOLUME_DIR = /home/$(USER)/data/mariadb
 
 all: create-volumes
-	docker compose -f ./srcs/docker-compose.yml up --build -d
+	docker compose -f ./srcs/docker-compose.yml up --build  -d
 create-volumes:
 	@if [ ! -d "$(MDB_VOLUME_DIR)" ]; then \
 		mkdir -p $(MDB_VOLUME_DIR); \
@@ -20,7 +20,7 @@ down:
 clean:
 	docker compose -f ./srcs/docker-compose.yml down -v
 
-re: clean all
+re: fclean all
 
 
 fclean: clean
@@ -29,6 +29,7 @@ fclean: clean
 	docker network prune -f
 	docker container prune -f
 	docker image prune -f
+	docker builder prune
 	sudo rm -rf ${WP_VOLUME_DIR}
 	sudo rm -rf ${MDB_VOLUME_DIR}
 	
