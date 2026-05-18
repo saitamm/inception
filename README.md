@@ -50,25 +50,29 @@ Create `srcs/.env` with at least the following variables (referenced by the Comp
 
 ```env
 # MariaDB
-MYSQL_DATABASE=wordpress
-MYSQL_USER=wp_user
-MYSQL_PASSWORD=change_me
+MYSQL_DATABASE=mysql
+MYSQL_USER=soumaya
+MYSQL_PASSWORD=Soumaya2000
 
 # WordPress → MariaDB
 DB_HOST=mariadb
 DB_HOST_PORT=3306
 
 # WordPress admin (note: must NOT contain "admin")
-ADMIN=siteboss
-ADMIN_PASSWORD=change_me
-ADMIN_EMAIL=admin@example.com
+
+ADMIN=saitamm
+ADMIN_PASSWORD=saitamm2000
+ADMIN_EMAIL=saitamm@gmail.com
+USER=sait-amm
 
 # Extra WordPress user
-USER_WP=visitor
-USER_WP_EMAIL=visitor@example.com
-USER_WP_PASSWORD=change_me
 
+USER_WP=visitor
+USER_WP=soumaya
+USER_WP_EMAIL=soumaya@gmail.com
+USER_WP_PASSWORD=Soumaya2000
 # Host volume locations (used by the Makefile)
+
 WP_VOLUME_DIR=${HOME}/data/wordpress
 MDB_VOLUME_DIR=${HOME}/data/mariadb
 ```
